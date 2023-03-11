@@ -6,6 +6,8 @@ Die Datenpunkte werden automatisch im Webinterface mit dem aktuellen Wert angeze
 
 [Projektdetails auf meinem Blog](https://blog.mt88.eu/2022/10/27/viessmann-heizungsdaten-2-0/)
 
+## Fork by Stefan Rinke
+Mindestens ein Command topic für MQTT hinfügen, um die VitoDens auch steuern zu können. Evtl. auto discovery für Home Assistant dazu
 
 ## Einrichtung
 
