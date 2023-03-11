@@ -9,6 +9,14 @@ Die Datenpunkte werden automatisch im Webinterface mit dem aktuellen Wert angeze
 ## Fork by Stefan Rinke
 Mindestens ein Command topic für MQTT hinfügen, um die VitoDens auch steuern zu können. Evtl. auto discovery für Home Assistant dazu
 
+## Hardware
+verwendet wird ein D1 mini
+![pinout](./images/wemos-d1-mini-pinout.jpg)
+
+und der Aufbau sieht so aus:
+![wiring](./images/OptolinkESP8266.png)
+(C) by openv project
+
 ## Einrichtung
 
  - mit WLAN "optolink_config" verbinden
