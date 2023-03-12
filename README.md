@@ -17,6 +17,9 @@ und der Aufbau sieht so aus:
 ![wiring](./images/OptolinkESP8266.png)
 (C) by openv project
 
+Die Implementierung hier verwendet allerdings eine "SoftSerial" Instanz zur Kommunikation mit der VitoDens.
+RX = D2 und TX = D1
+
 ## Einrichtung
 
  - mit WLAN "optolink_config" verbinden
