@@ -71,7 +71,7 @@ void setup() {
 
 		setupVito();
 
-		t.every( 10000, getValues ); // request datapoints every 10 secs
+		t.every( 30000, getValues ); // request datapoints every 10 secs
 		getVitoData();
 
 		IPAddress HTTPS_ServerIP = WiFi.localIP();
