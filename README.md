@@ -7,7 +7,13 @@ Die Datenpunkte werden automatisch im Webinterface mit dem aktuellen Wert angeze
 [Projektdetails auf meinem Blog](https://blog.mt88.eu/2022/10/27/viessmann-heizungsdaten-2-0/)
 
 ## Fork by Stefan Rinke
-Mindestens ein Command topic für MQTT hinfügen, um die VitoDens auch steuern zu können. Evtl. auto discovery für Home Assistant dazu
+Command topic für MQTT &lt;prefix&gt;/set/&lt;name&gt; um Werte auch über mqtt steuern zu können
+Im Moment unterstützt:
+
+  - Betriebsart: Werte 0 (Frostschutz), 1 (nur WW), 2 (WW + Heizen)
+  - Partybetrieb: 0, 1 (aus/an)
+
+TODO: Evtl. auto discovery für Home Assistant dazu
 
 ## Hardware
 verwendet wird ein D1 mini
