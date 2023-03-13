@@ -24,6 +24,8 @@ DPTemp kesselSollTemp("KesselSollTemp", " °C", 0x555A);
 // no DPTemp as ww soll is int16
 DPTempS warmwasserSollTemp("WarmwasserSollTemp", " °C", 0x6300, true);
 DPTempS raumSollTemp("RaumSollTemp", " °C", 0x2306, true);
+DPTempS RTSolltemperaturReduziert("RaumSollReduziertTemp", " °C", 0x2307, true);
+
 DPTemp warmwasserIstTemp("WarmwasserIstTemp", " °C", 0x0804);
 DPTemp vorlaufSollTemp("VorlaufSollTemp", " °C", 0x3544);
 DPTemp vorlaufIstTemp("VorlaufIstTemp", " °C", 0x3900);
