@@ -33,7 +33,7 @@ void setupMqtt(String server, String clientId, String prefix) {
 
 void publishMqtt(String topic, const char* payload) {
     //Log("MQTT: publish " + topic_prefix + topic + "->" + String(payload));
-    mqttClient.publish((topic_prefix + topic).c_str(), payload);
+    mqttClient.publish((topic_prefix + topic).c_str(), payload, true);
 }
 
 char* getTopic( String prefix, const char* postfix ) {
