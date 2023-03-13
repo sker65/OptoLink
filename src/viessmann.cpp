@@ -22,16 +22,23 @@ DPTemp warmwasserSollTemp("WarmwasserSollTemp", " °C", 0x6300);
 DPTemp warmwasserIstTemp("WarmwasserIstTemp", " °C", 0x0804);
 DPTemp vorlaufSollTemp("VorlaufSollTemp", " °C", 0x3544);
 DPTemp vorlaufIstTemp("VorlaufIstTemp", " °C", 0x3900);
-DPTemp kollektorTemp("KollektorTemp", " °C", 0x6564);
-DPTemp solarspeicherTemp("SolarspeicherTemp", " °C", 0x6566);
-DPMode nachladeunterdrueckung("Nachladeunterdrückung", "", 0x6551);
-DPMode solarpumpe("Solarpumpe", "", 0x6552);
-DPCount waermemenge("Wärmemenge", " kWh", 0x6560);
-DPCount solartagesertrag("Solartagesertrag", " Wh", 0xCF30);
-DPMode solarinfo("Solarinfo", "", 0x7754);
+//DPTemp kollektorTemp("KollektorTemp", " °C", 0x6564);
+//DPTemp solarspeicherTemp("SolarspeicherTemp", " °C", 0x6566);
+//DPMode nachladeunterdrueckung("Nachladeunterdrückung", "", 0x6551);
+//DPMode solarpumpe("Solarpumpe", "", 0x6552);
+//DPCount waermemenge("Wärmemenge", " kWh", 0x6560);
+//DPCount solartagesertrag("Solartagesertrag", " Wh", 0xCF30);
+//DPMode solarinfo("Solarinfo", "", 0x7754);
 DPMode speicherladepumpe("Speicherladepumpe", "", 0x6513);
-DPMode betriebsart("Betriebsart", "", 0x3323);
-DPMode sparbetrieb("Sparbetrieb", "", 0x3302);
+//DPMode betriebsart("Betriebsart", "", 0x3323);
+//DPMode betriebsart1("Betriebsart2500", "", 0x2500);
+DPMode betriebsart("Betriebsart", "", 0x2323, true);
+//DPMode betriebsart3("Betriebsart2301", "", 0x2301);
+
+//DPMode sparbetrieb("Sparbetrieb", "", 0x3302);
+//DPMode sparbetrieb1("Sparbetrieb2302", "", 0x2302);
+DPMode partybetrieb("Partybetrieb", "", 0x2303, true);
+
 DPHours brennerlaufzeit("Brennerlaufzeit", " Std.", 0x0886);
 DPMode brennerstoerung("Brennerstörung", "", 0x0883);
 DPCount brennerstarts("Brennerstarts", "", 0x088A);
@@ -52,6 +59,7 @@ DPRaw stoerungsmeldung7("Störungsmeldung7", "boiler", 0x753D);
 DPRaw stoerungsmeldung8("Störungsmeldung8", "boiler", 0x7546);
 DPRaw stoerungsmeldung9("Störungsmeldung9", "boiler", 0x754F);
 DPRaw stoerungsmeldung10("Störungsmeldung10", "boiler", 0x7558);
+DPRaw kennung("Kennung", "",0x00F8);
 
 String lastError = "";
 
@@ -63,6 +71,29 @@ void tempCallbackHandler(const IDatapoint& dp, DPValue value);
 void globalCallbackHandler(const IDatapoint& dp, DPValue value);
 void stoerungsmeldungCallbackHandler(const IDatapoint& dp, DPValue value);
 void addValueToLiveData(const IDatapoint& dp, String value);
+
+void handleCallback(char* topic, char* msg) {
+    if( strcmp("Betriebsart", topic) == 0 ) {
+        int b = String(msg).toInt();
+        if( b >= 0 && b <= 2) {
+            DPValue val((uint8_t)b);
+            VitoWiFi.writeDatapoint(betriebsart, val );
+            Log("Setting Betriebsart to " + String(msg));
+        } else {
+            Log("Betriebsart: payload invalid " + String(msg));
+        }
+    }
+    if( strcmp("Partybetrieb", topic) == 0 ) {
+        int b = String(msg).toInt();
+        if( b >= 0 && b <= 1) {
+            DPValue val((uint8_t)b);
+            VitoWiFi.writeDatapoint(betriebsart, val );
+            Log("Setting Partybetrieb to " + String(msg));
+        } else {
+            Log("Partybetrieb: payload invalid " + String(msg));
+        }
+    }
+}
 
 void setupVito() {
     VitoWiFi.setup(&swSer);
@@ -87,6 +118,7 @@ void setupVito() {
     stoerungsmeldung8.setLength(9);
     stoerungsmeldung9.setLength(9);
     stoerungsmeldung10.setLength(9);
+    kennung.setLength(2);
 
     for (auto it = IDatapoint::getCollection().begin(); it != IDatapoint::getCollection().end(); ++it) {
         LiveData data = {(*it), ""};
