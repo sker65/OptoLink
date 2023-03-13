@@ -10,6 +10,9 @@ SoftwareSerial swSer;
 byte missingValuesCount = 0;
 std::vector<LiveData> liveData;
 
+// see https://docs.google.com/spreadsheets/d/1M5jf8kQSwJrDFPI_NDTffW4X97pJ5C2X
+// this a VT200 H01 code 0x20C2
+
 //second parameter "group" is misused for the unit
 DPTemp aussenTemp("AußenTemp", " °C", 0x0800);
 DPHours betriebsstunden("Betriebsstunden", " Std.", 0x6568);
@@ -18,7 +21,9 @@ DPTemp ladespeicherObenTemp("LadespeicherObenTemp", " °C", 0x0812);
 DPTemp ladespeicherUntenTemp("LadespeicherUntenTemp", " °C", 0x0814);
 DPTemp kesselIstTemp("KesselIstTemp", " °C", 0x0802);
 DPTemp kesselSollTemp("KesselSollTemp", " °C", 0x555A);
-DPTemp warmwasserSollTemp("WarmwasserSollTemp", " °C", 0x6300);
+// no DPTemp as ww soll is int16
+DPTempS warmwasserSollTemp("WarmwasserSollTemp", " °C", 0x6300, true);
+DPTempS raumSollTemp("RaumSollTemp", " °C", 0x2306, true);
 DPTemp warmwasserIstTemp("WarmwasserIstTemp", " °C", 0x0804);
 DPTemp vorlaufSollTemp("VorlaufSollTemp", " °C", 0x3544);
 DPTemp vorlaufIstTemp("VorlaufIstTemp", " °C", 0x3900);
@@ -87,10 +92,30 @@ void handleCallback(char* topic, char* msg) {
         int b = String(msg).toInt();
         if( b >= 0 && b <= 1) {
             DPValue val((uint8_t)b);
-            VitoWiFi.writeDatapoint(betriebsart, val );
+            VitoWiFi.writeDatapoint(partybetrieb, val );
             Log("Setting Partybetrieb to " + String(msg));
         } else {
             Log("Partybetrieb: payload invalid " + String(msg));
+        }
+    }
+    if( strcmp("RaumSollTemp", topic) == 0 ) {
+        int b = String(msg).toInt();
+        if( b >= 10 && b <= 30) {
+            DPValue val((uint8_t)b);
+            VitoWiFi.writeDatapoint(raumSollTemp, val );
+            Log("Setting RaumSollTemp to " + String(msg));
+        } else {
+            Log("RaumSollTemp: payload invalid " + String(msg));
+        }
+    }
+    if( strcmp("WarmwasserSollTemp", topic) == 0 ) {
+        int b = String(msg).toInt();
+        if( b >= 10 && b <= 95) {
+            DPValue val((uint8_t)b);
+            VitoWiFi.writeDatapoint(warmwasserSollTemp, val );
+            Log("Setting WarmwasserSollTemp to " + String(msg));
+        } else {
+            Log("WarmwasserSollTemp: payload invalid " + String(msg));
         }
     }
 }
