@@ -253,7 +253,7 @@ const char HTTP_STYLE[] PROGMEM =
 const char HTTP_CONTAINER[] PROGMEM =
 "<body onload=\"init()\">\n"
 "<div class=\"container\">\n"
-"<div class=\"heading\"><h2>Optolink</h2><h3 id=\"time\"></h3></div>\n";
+"<div class=\"heading\"><h2>Optolink</h2><h3 id=\"time\"></h3></div>\n<div style=\"width:100%\" class=\"messages\"> <span id=\"uptime\"></span></div>";
 
 const char HTTP_MAIN[] PROGMEM =
 "<div class=\"messages\"><span id=\"onmessage\">{onmessage}</span><span id=\"offmessage\">{offmessage}</span></div>\n"

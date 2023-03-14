@@ -12,8 +12,12 @@ Im Moment unterstützt:
 
   - Betriebsart: Werte 0 (Frostschutz), 1 (nur WW), 2 (WW + Heizen)
   - Partybetrieb: 0, 1 (aus/an)
+  - RaumSollTemp: die (nicht reduzierte) Raum Soll Temperatur
+  - WarmwasserSollTemp: die Warmwasser Soll Temperatur
 
-TODO: Evtl. auto discovery für Home Assistant dazu
+Die Einbindung in Home Assistant sieht aktuell so aus:
+
+![home assistant](./images/optolink-ha.jpg)
 
 ## Hardware
 verwendet wird ein D1 mini
