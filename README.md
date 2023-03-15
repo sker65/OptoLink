@@ -1,64 +1,64 @@
 # Optolink
 
-Dieses Projekt liest von einer Viessmann Vitodens 200-W mit Vitotronic 200 VScotHO1 (2019) einige Daten aus und sendet diese bei Bedarf an einen MQTT Broker.
-Fehlercodes werden in Fehlermeldungen übersetzt.
-Die Datenpunkte werden automatisch im Webinterface mit dem aktuellen Wert angezeigt. Aktuelle Werte werden per AJAX nachgeladen.
+This project reads some data from a Viessmann Vitodens 200-W with Vitotronic 200 VScotHO1 (2019) and sends it to an MQTT broker if necessary. Error codes are translated into error messages. 
+The data points are automatically displayed in the web interface with the current value. Current values ​​are reloaded via AJAX.
+In this repository the value addresses were adapted to a vitotronic 200 H01 id code 0x20C2.
 
-[Projektdetails auf meinem Blog](https://blog.mt88.eu/2022/10/27/viessmann-heizungsdaten-2-0/)
+[Project details on my blog](https://blog.mt88.eu/2022/10/27/viessmann-heizungsdaten-2-0/)
 
 ## Fork by Stefan Rinke
-Command topic für MQTT &lt;prefix&gt;/set/&lt;name&gt; um Werte auch über mqtt steuern zu können
-Im Moment unterstützt:
+Command topic on MQTT &lt;prefix&gt;/set/&lt;name&gt; for setting values over mqtt.
+currently supported:
 
-  - Betriebsart: Werte 0 (Frostschutz), 1 (nur WW), 2 (WW + Heizen)
-  - Partybetrieb: 0, 1 (aus/an)
-  - RaumSollTemp: die (nicht reduzierte) Raum Soll Temperatur
-  - WarmwasserSollTemp: die Warmwasser Soll Temperatur
+  - Betriebsart: values 0 (Frostschutz), 1 (nur WW), 2 (WW + Heizen)
+  - Partybetrieb: 0, 1 (off/on)
+  - RaumSollTemp: (non reduced) room target temperature
+  - WarmwasserSollTemp: target temperature for hot water
+  
+The integration into Home Assistant currently looks like this:
 
-Die Einbindung in Home Assistant sieht aktuell so aus:
-
-![home assistant](./images/optolink-ha.jpg)
+<img src="./images/optolink-ha.jpg" width=280 alt="home assistant integration">
 
 ## Hardware
-verwendet wird ein D1 mini
+used a D1 mini pro
 ![pinout](./images/wemos-d1-mini-pinout.jpg)
 
-und der Aufbau sieht so aus:
+and the wiring looks like this:
 ![wiring](./images/OptolinkESP8266.png)
 (C) by openv project
 
-Die Implementierung hier verwendet allerdings eine "SoftSerial" Instanz zur Kommunikation mit der VitoDens.
+However, the implementation here uses a "SoftSerial" instance for communication with the VitoDens.
 RX = D2 und TX = D1
 
-## Einrichtung
+## Setup
 
- - mit WLAN "optolink_config" verbinden
- - 192.168.0.1 im Browser aufrufen
- - WLAN-Zugangsdaten eingeben
- - NTP-Server IP eingeben (optional)
- - MQTT-Broker IP eingeben (optional)
- - MQTT Topic Prefix anpassen (optional)
- - MQTT Client Id anpassen (optional)
- - Änderung des Protokolls (P300 / KW) in zwei Dateien ändern(viessmann.h, viessmann.cpp) (optional)
+ - connect to WiFi "optolink_config".
+ - Go to 192.168.0.1 in the browser
+ - Enter WLAN access data
+ - Enter NTP server IP (optional)
+ - Enter MQTT broker IP (optional)
+ - Adjust MQTT topic prefix (optional)
+ - Adjust MQTT client ID (optional)
+ - Change the log (P300 / KW) to two files (viessmann.h, viessmann.cpp) (optional)
 
 ## Features
 
- - Kann beim Start des Moduls (z.B. nach Ersteinrichtung) keine Verbindung zum WLAN hergestellt werden, werden die WLAN-Einstellungen nach etwa 1,5 Minuten zurückgesetzt und somit der Konfigurationsmodus wieder aktiviert.
+ - If no connection to the WLAN can be established when starting the module (e.g. after initial setup), the WLAN settings are reset after about 1.5 minutes and the configuration mode is activated again.
 
- - Die Einstellungen können auch nachträglich noch über das Webinterface verändert werden.
+ - The settings can also be changed later via the web interface.
 
- - Die Einstellungen werden im Flash-Speicher persistent gespeichert.
+ - The settings are persistently stored in the flash memory.
 
- - Benachrichtigung bei Störung
+ - Notification of failure
 
- - Logeinträge im Webinterface mit Datum und Uhrzeit, da NTP Integration
+ - Log entries in the web interface with date and time due to NTP integration
 
- - Falls keine Daten über die Infrarotschnittstelle gelesen werden können, sendet das Modul optolink/error = 1 (bei Standard Topic Prefix) über MQTT, wartet eine Minute und versucht es erneut.
-Durch dieses Verhalten wird auch sichergestellt, dass die Heizung nach einem Stromausfall wieder startet. Beim Start der Heizung dürfen keine Infrarotsignale gesendet werden, da die Heizung sonst in einer Start-Schleife hängen bleibt.
+ - If no data can be read via the infrared interface, the module sends optolink/error = 1 (with standard topic prefix) via MQTT, waits a minute and tries again.
+This behavior also ensures that the heater restarts after a power failure. When starting the heater, no infrared signals may be sent, otherwise the heater will get stuck in a start loop.
 
- - Das Modul lässt sich im Nachgang über WLAN(OTA) flashen.
+ - The module can be flashed afterwards via WLAN (OTA).
 
- - Werte der Datenpunkte werden im Webinterface übersichtlich dargestellt (responsives Design) mit automatischer Aktualisierung (AJAX)
- 
+ - Values ​​of the data points are clearly displayed in the web interface (responsive design) with automatic updating (AJAX)
+
  ![wide](https://user-images.githubusercontent.com/29315283/217073328-74bc63c6-5688-4ee7-8f82-0507d2c4505c.JPG)
 ![small](https://user-images.githubusercontent.com/29315283/217073387-57d89a8f-52c1-41c8-a976-6f2cc904aa9c.JPG)
