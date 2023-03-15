@@ -4,7 +4,7 @@ This project reads some data from a Viessmann Vitodens 200-W with Vitotronic 200
 The data points are automatically displayed in the web interface with the current value. Current values ​​are reloaded via AJAX.
 In this repository the value addresses were adapted to a vitotronic 200 H01 id code 0x20C2.
 
-[Project details on my blog](https://blog.mt88.eu/2022/10/27/viessmann-heizungsdaten-2-0/)
+[Project details on my blog](https://blog.mt88.eu/2022/10/27/viessmann-heizungsdaten-2-0/) (german only)
 
 ## Fork by Stefan Rinke
 Command topic on MQTT &lt;prefix&gt;/set/&lt;name&gt; for setting values over mqtt.
